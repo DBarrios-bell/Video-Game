@@ -12,7 +12,11 @@ const playerPosition ={
     x: undefined,
     y: undefined,
 }
-let playerMove = undefined;
+
+const gifPosition = {
+    x: undefined,
+    y: undefined,
+}
 
 window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize', setCanvasSize);
@@ -37,7 +41,7 @@ function setCanvasSize() {
 
 function startGame() {
 
-    console.log({canvasSize,elementsSize});
+    // console.log({canvasSize,elementsSize});
 
     game.font= elementsSize + 'px Verdana';
     game.textAlign= 'end';
@@ -45,7 +49,7 @@ function startGame() {
     const map = maps[0];
     const mapRows = map.trim().split('\n');
     const mapRowCols = mapRows.map(row => row.trim().split(''));
-    console.log({map,mapRows,mapRowCols});
+    // console.log({map,mapRows,mapRowCols});
 
     // game.clearRect(0,0,canvasSize, canvasSize);
     game.clearRect(0,0,canvasSize, canvasSize);
@@ -53,17 +57,20 @@ function startGame() {
     mapRowCols.forEach((row, rowI) => { 
         row.forEach((col, colI)=>{
             const emoji = emojis[col];
-            const postX = elementsSize * (colI + 1);
-            const postY = elementsSize * (rowI + 1);
+            const posX = elementsSize * (colI + 1);
+            const posY = elementsSize * (rowI + 1);
 
             if (col == 'O'){
                 if (!playerPosition.x && !playerPosition.y) { 
-                    playerPosition.x = postX; 
-                    playerPosition.y = postY;
-                    console.log({playerPosition});
+                    playerPosition.x = posX; 
+                    playerPosition.y = posY;
+                    // console.log({playerPosition});
                 }
+            }else if(col == 'I'){
+                gifPosition.x = posX; 
+                gifPosition.y = posY;
             }
-            game.fillText(emoji, postX, postY);
+            game.fillText(emoji, posX, posY);
         });
     });
 
@@ -87,7 +94,16 @@ function startGame() {
 }
 
 function movePlayer() {
-    game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
+    const gifCollisionX = playerPosition.x.toFixed(2) == gifPosition.x.toFixed(2);
+    const gifCollisionY = playerPosition.y.toFixed(2) == gifPosition.y.toFixed(2);
+    const gifCollision = gifCollisionX && gifCollisionY; 
+    // console.log({gifCollisionX,gifCollisionY});
+
+    if (gifCollision) {
+        console.log('Subiste de nivel');
+    }
+
+    game.fillText(emojis['PLAYER'], playerPosition.x.toFixed(2), playerPosition.y.toFixed(2));
 }
 
 window.addEventListener('keydown', moveByKeys);
@@ -118,7 +134,7 @@ function moveUp() {
 function moveLeft() {
     console.log('mequiero mover hacia izquierda');
 
-    if ((playerPosition.x - elementsSize) < (elementsSize)) {
+    if ((playerPosition.x - elementsSize) < (elementsSize - 1)) {
         console.log('out');
     }else{
         playerPosition.x -= elementsSize;
@@ -140,7 +156,7 @@ function moveRight() {
 function moveDown() {
     console.log('mequiero mover hacia abajo');
 
-    if ((playerPosition.y + elementsSize) > (canvasSize)) {
+    if ((playerPosition.y + elementsSize) > (canvasSize + 1)) {
         console.log('out');
     }else{
         playerPosition.y += elementsSize;
