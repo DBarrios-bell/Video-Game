@@ -140,9 +140,7 @@ function levelWin() {
 }
 
 function levelFail() {
-    lives--;
-    showLives();
-    
+    lives--;    
 
     if (lives <= 0) {
         level = 0; 
