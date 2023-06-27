@@ -4,10 +4,12 @@ const btnUp = document.querySelector('#up');
 const btnLeft = document.querySelector('#left');
 const btnRight = document.querySelector('#right');
 const btnDown = document.querySelector('#down');
+const spanLives = document.querySelector("#lives");
 
 let canvasSize;
 let elementsSize;
 let level = 0;
+let lives =3;
 const playerPosition ={
     x: undefined,
     y: undefined,
@@ -57,6 +59,8 @@ function startGame() {
     const mapRows = map.trim().split('\n');
     const mapRowCols = mapRows.map(row => row.trim().split(''));
     // console.log({map,mapRows,mapRowCols});
+
+    showLives();
     
     enemyPositions = [];
     game.clearRect(0,0,canvasSize, canvasSize);
@@ -122,8 +126,9 @@ function movePlayer() {
     });
 
     if (enemyCollision) {
-        console.log('Chocaste con un enemigo'); 
-    }
+        levelFail();
+        
+    };
 
     game.fillText(emojis['PLAYER'], playerPosition.x.toFixed(3), playerPosition.y.toFixed(3));
 }
@@ -134,8 +139,30 @@ function levelWin() {
     startGame();
 }
 
+function levelFail() {
+    lives--;
+    showLives();
+    
+
+    if (lives <= 0) {
+        level = 0; 
+        lives = 3;
+    }
+    console.log(lives);
+    playerPosition.x = undefined;
+    playerPosition.y = undefined;
+    startGame();
+}
+
 function gameWin() {
+    alert('Terminaste el juego :p');
     console.log('Terminaste el juego :p');
+}
+
+function showLives() {
+    const arrayLives = Array(lives).fill(emojis['HEART']); //llenar el array - fill
+    spanLives.innerHTML= "";
+    arrayLives.forEach( heart => spanLives.append(heart)); //agregar sin borrar
 }
 
 window.addEventListener('keydown', moveByKeys);

@@ -6,12 +6,13 @@
 const emojis = {
     '-': ' ',
     'O': '🚪',
-    'X': '💣',
+    'X': '🚷',
     'I': '🎁',
     'PLAYER': '🏃‍♂️',
     'BOMB_COLLISION': '🔥',
     'GAME_OVER': '👎',
     'WIN': '🏆',
+    'HEART':'🧡',
   };
   
   const maps = [];
