@@ -6,8 +6,6 @@ const btnRight = document.querySelector('#right');
 const btnDown = document.querySelector('#down');
 const spanLives = document.querySelector("#lives");
 const spanTimes= document.querySelector("#times");
-const spanRecord= document.querySelector("#record");
-const pResult= document.querySelector("#result");
 
 let canvasSize;
 let elementsSize;
@@ -35,29 +33,20 @@ window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize', setCanvasSize);
 
 function fixNumber(n) {
-    return Number(n.toFixed(0));
+    return Number(n.toFixed(0))
 }
 
 function setCanvasSize() {
     
-    
     if (window.innerHeight > window.innerWidth) {
-        canvasSize = window.innerWidth * 0.7;
+        fixNumber(canvasSize) = window.innerWidth * 0.7;
     }else {
-        canvasSize = window.innerHeight * 0.7;
+        fixNumber(canvasSize) = window.innerHeight * 0.7;
     }
-
-    canvasSize = fixNumber(canvasSize);
-
     canvas.setAttribute('width', canvasSize);
     canvas.setAttribute('height', canvasSize);
     
-    elementsSize = canvasSize / 10; 
-
-    elementsSize = fixNumber(elementsSize);
-
-    playerPosition.x = undefined;
-    playerPosition.y = undefined;
+    fixNumber(elementsSize) = canvasSize / 10; 
     
     startGame();
     
@@ -81,9 +70,7 @@ function startGame() {
     if (!timeStart) {
         timeStart = Date.now();
         timeInterval = setInterval(showTime ,100);
-        showRecord();
     }
-
 
     const mapRows = map.trim().split('\n');
     const mapRowCols = mapRows.map(row => row.trim().split(''));
@@ -93,7 +80,6 @@ function startGame() {
     showTime();
     
     enemyPositions = [];
-   
     game.clearRect(0,0,canvasSize, canvasSize);
 
     mapRowCols.forEach((row, rowI) => { 
@@ -117,7 +103,7 @@ function startGame() {
                     y: fixNumber(posY),
                 });
             }
-            game.fillText(emoji, posX, posY);
+            game.fillText(emoji, fixNumber(posX), fixNumber(posY));
         });
     });
 
@@ -141,8 +127,8 @@ function startGame() {
 }
 
 function movePlayer() {
-    const gifCollisionX = playerPosition.x == gifPosition.x;
-    const gifCollisionY = playerPosition.y == gifPosition.y;
+    const gifCollisionX = playerPosition.x.toFixed(3) == gifPosition.x.toFixed(3);
+    const gifCollisionY = playerPosition.y.toFixed(3) == gifPosition.y.toFixed(3);
     const gifCollision = gifCollisionX && gifCollisionY; 
     // console.log({gifCollisionX,gifCollisionY});
 
@@ -151,8 +137,8 @@ function movePlayer() {
     }
 
     const enemyCollision = enemyPositions.find(enemy =>{
-        const enemyCollisionX = enemy.x == playerPosition.x;
-        const enemyCollisionY = enemy.y == playerPosition.y;
+        const enemyCollisionX = enemy.x.toFixed(3) == playerPosition.x.toFixed(3);
+        const enemyCollisionY = enemy.y.toFixed(3) == playerPosition.y.toFixed(3);
         return enemyCollisionX && enemyCollisionY;
     });
 
@@ -161,7 +147,7 @@ function movePlayer() {
         
     };
 
-    game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
+    game.fillText(emojis['PLAYER'], playerPosition.x.toFixed(3), playerPosition.y.toFixed(3));
 }
 
 function levelWin() {
@@ -187,31 +173,8 @@ function levelFail() {
 function gameWin() {
     // alert('Terminaste el juego :p');
     console.log('Terminaste el juego :p');
+
     clearInterval(timeInterval);
-
-    recordPlayer();
-    
-   
-}
-
-function recordPlayer() {
-    const recordTime = localStorage.getItem('record_time');
-    const playerTime = Date.now() - timeStart;
-
-    if (recordTime) {
-        if (recordTime >= playerTime) {
-            localStorage.setItem('record_time', playerTime);
-            pResult.innerHTML = 'HAS SUPERADO EL RECORD 🎉';
-        }else{
-            pResult.innerHTML = 'NO SUPERASTE EL RECORD 😂';
-            // localStorage.removeItem('record_time',playerTime);
-        }
-    }else{
-        localStorage.setItem('record_time', playerTime);
-        pResult.innerHTML = 'Primer juego 🛴';
-    }
-
-    console.log({recordTime,playerTime});
 }
 
 function showLives() {
@@ -222,10 +185,6 @@ function showLives() {
 
 function showTime() {
     spanTimes.innerHTML = Date.now() - timeStart;
-}
-
-function showRecord() {
-    spanRecord.innerHTML = localStorage.getItem('record_time');
 }
 
 window.addEventListener('keydown', moveByKeys);
