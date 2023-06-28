@@ -42,12 +42,12 @@ function setCanvasSize() {
     
     
     if (window.innerHeight > window.innerWidth) {
-        canvasSize = window.innerWidth * 0.7;
+        canvasSizeN = window.innerWidth * 0.7;
     }else {
-        canvasSize = window.innerHeight * 0.7;
+        canvasSizeN = window.innerHeight * 0.7;
     }
 
-    canvasSize = fixNumber(canvasSize);
+    canvasSize = fixNumber(canvasSizeN);
 
     canvas.setAttribute('width', canvasSize);
     canvas.setAttribute('height', canvasSize);
@@ -101,8 +101,7 @@ function startGame() {
             const emoji = emojis[col];
             const posX = elementsSize * (colI + 1);
             const posY = elementsSize * (rowI + 1);
-            // posX = fixNumber(posX);
-            // posY = fixNumber(posY);
+            
 
             if (col == 'O'){
                 if (!playerPosition.x && !playerPosition.y) { 
@@ -246,7 +245,7 @@ function moveByKeys(event) {
 
 function moveUp() {
     
-    if ((playerPosition.y - elementsSize) < (elementsSize -2)) {
+    if ((playerPosition.y - elementsSize) < (elementsSize -1)) {
         console.log('bloqueado');
     }else{
         // console.log('mequiero mover hacia arriba');
@@ -257,7 +256,7 @@ function moveUp() {
 
 function moveLeft() {
     
-    if ((playerPosition.x - elementsSize) < (elementsSize - 2)) {
+    if ((playerPosition.x - elementsSize) < (elementsSize - 1)) {
         console.log('bloqueado');
     }else{
         // console.log('mequiero mover hacia izquierda');
@@ -279,7 +278,7 @@ function moveRight() {
 
 function moveDown() {
     
-    if ((playerPosition.y + elementsSize) > (canvasSize + 1)) {
+    if ((playerPosition.y + elementsSize) > (canvasSize + 3)) {
         console.log('bloqueado');
     }else{
         // console.log('Voy para abajo');
