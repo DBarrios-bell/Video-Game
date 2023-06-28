@@ -246,7 +246,7 @@ function moveByKeys(event) {
 
 function moveUp() {
     
-    if ((playerPosition.y - elementsSize) < (elementsSize -1)) {
+    if ((playerPosition.y - elementsSize) < (elementsSize -2)) {
         console.log('bloqueado');
     }else{
         // console.log('mequiero mover hacia arriba');
@@ -257,7 +257,7 @@ function moveUp() {
 
 function moveLeft() {
     
-    if ((playerPosition.x - elementsSize) < (elementsSize - 1)) {
+    if ((playerPosition.x - elementsSize) < (elementsSize - 2)) {
         console.log('bloqueado');
     }else{
         // console.log('mequiero mover hacia izquierda');
